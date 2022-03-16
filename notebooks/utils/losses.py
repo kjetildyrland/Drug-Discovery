@@ -4,6 +4,8 @@ import torch.nn.functional as F
 import numpy as np
 import scipy.stats as stats2
 import sys
+#from fastai.losses import FocalLossFlat as focal_loss
+
 try:
     from kornia.losses import FocalLoss as focal_loss
 except:
