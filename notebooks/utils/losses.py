@@ -4,6 +4,8 @@ import torch.nn.functional as F
 import numpy as np
 import scipy.stats as stats2
 import sys
+#from .torch_imports import *
+#from .torch_core import *
 #from fastai.losses import FocalLossFlat as focal_loss
 
 try:
@@ -95,7 +97,7 @@ def label_smoothing_criterion(alpha=0.1, distribution='uniform', std=0.5, reduct
 
     return _label_smoothing_criterion
 
-def cost_sensitive_loss(input, target, M):
+def cost_sensitive_loss(input: torch.Tensor, target: torch.Tensor, M):
     if input.size(0) != target.size(0):
         raise ValueError('Expected input batch_size ({}) to match target batch_size ({}).'
                          .format(input.size(0), target.size(0)))
@@ -119,7 +121,7 @@ class CostSensitiveLoss(nn.Module):
         M /= M.max()
         self.M = torch.from_numpy(M)
 
-    def forward(self, logits, target):
+    def forward(self, logits: torch.Tensor, target: torch.Tensor):
         preds = self.normalization(logits)
         loss = cost_sensitive_loss(preds, target, self.M)
         if self.reduction == 'none':
@@ -178,7 +180,7 @@ class CostSensitiveRegularizedLoss(nn.Module):
         else:
             sys.exit('not a supported base_loss')
 
-    def forward(self, logits, target):
+    def forward(self, logits: torch.Tensor, target: torch.Tensor):
         base_l = self.base_loss(logits, target)
         if self.lambd == 0:
             return self.base_loss(logits, target)
