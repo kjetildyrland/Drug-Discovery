@@ -6,3 +6,4 @@ models
 *ecfp_512.csv
 *activations_512.csv
 *activations_*.csv
+*ecfp*
