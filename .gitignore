@@ -7,3 +7,4 @@ models
 *activations_512.csv
 *activations_*.csv
 *ecfp*
+binding_sites_files
