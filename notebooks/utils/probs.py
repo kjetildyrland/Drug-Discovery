@@ -8,7 +8,7 @@ import sys
 #from .torch_core import *
 #from fastai.losses import FocalLossFlat as focal_loss
 
-def direct_prob(x, cl, w, p, m, s):
+def RF_direct_prob(x, cl, w, p, m, s):
     """
     Gives probability of class conditional on RF-output
     x = RF output (between 0 and 1)
@@ -27,3 +27,20 @@ def direct_prob(x, cl, w, p, m, s):
     px = np.sum(w * norm.pdf(y, loc=m, scale=s))
     out = pjoint / px
     return out
+def CNN_direct_prob(x, cl, w, p, m0, s0, m1, s1):
+    """
+    Gives probability of class conditional on CNN-output
+    x = CNN output: vector of two real numbers
+    cl = class (0 or 1)
+    w = array of weights
+    p = array of probs
+    m0 = array of means for gaussian, output0
+    s0 = array of standard devs for gaussian, output0
+    m1 = array of means for gaussian, output1
+    s1 = array of standard devs for gaussian, output1
+    """
+    pc = p*cl + (1-p)*(1-cl)
+    pjoint = np.sum(w * pc * norm.pdf(x[0], loc=m0, scale=s0) * norm.pdf(x[1], loc=m1, scale=s1))
+    px = np.sum(w * norm.pdf(x[0], loc=m0, scale=s0) * norm.pdf(x[1], loc=m1, scale=s1))
+    prob = pjoint/px
+    return prob
