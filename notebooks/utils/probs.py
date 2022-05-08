@@ -44,3 +44,22 @@ def CNN_direct_prob(x, cl, w, p, m0, s0, m1, s1):
     px = np.sum(w * norm.pdf(x[0], loc=m0, scale=s0) * norm.pdf(x[1], loc=m1, scale=s1))
     prob = pjoint/px
     return prob
+#function for making a list of strings in df to list of floats
+def get_substring_list(split):
+    if len(split) <= 1:
+        print('nooo')
+    i = 0
+    while len(split[i]) <= 1:
+        i += 1
+    s1 = split[i]
+    i += 1
+    while len(split[i]) <= 1:
+        i += 1
+    s2 = split[i]
+    if s1[0] == '[':
+        s1 = s1[1:]
+    if s2[-1] == ']':
+        s2 = s2[0:-1]
+    s1 = np.float64(s1)
+    s2 = np.float64(s2)
+    return [s1, s2]
